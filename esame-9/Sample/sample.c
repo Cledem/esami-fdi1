@@ -1,8 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "sample.h"
 #include <string.h>
-#define true 1
-#define false 0
 
 extern int sample_scrivi(FILE* f, const struct sample* s) {
 
@@ -11,22 +9,22 @@ extern int sample_scrivi(FILE* f, const struct sample* s) {
 
 	end = fwrite(&s->idSample, sizeof(int), 1, f);
 	if (end != 1) {
-		return false;
+		return 0;
 	}
 	end = fwrite(&s->nomeCategoria, sizeof(char), strlen(s->nomeCategoria), f);
 	if (end != strlen(s->nomeCategoria)) {
-		return false;
+		return 0;
 	}
 	end = fwrite(&zero, sizeof(char), 1, f);
 	if (end != 1) {
-		return false;
+		return 0;
 	}
 	end = fwrite(&s->accuracy, sizeof(double), 1, f);
 	if (end != 1) {
-		return false;
+		return 0;
 	}
 
-	return true;
+	return 1;
 }
 
 extern int sample_leggi(FILE* f, struct sample* s) {
@@ -37,7 +35,7 @@ extern int sample_leggi(FILE* f, struct sample* s) {
 
 	end = fread(&s->idSample, sizeof(int), 1, f);
 	if (end != 1) {
-		return false;
+		return 0;
 	}
 
 	char var;
@@ -45,7 +43,7 @@ extern int sample_leggi(FILE* f, struct sample* s) {
 		end = fread(&var, sizeof(char), 1, f);
 		i++;
 		if (end != 1 || i > 20) {
-			return false;
+			return 0;
 		}
 
 		s->nomeCategoria[i] = var;
@@ -54,8 +52,8 @@ extern int sample_leggi(FILE* f, struct sample* s) {
 
 	end = fread(&s->accuracy, sizeof(double), 1, f);
 	if (end != 1) {
-		return false;
+		return 0;
 	}
 
-	return true;
+	return 1;
 }
